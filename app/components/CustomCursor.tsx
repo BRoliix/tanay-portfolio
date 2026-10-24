@@ -56,7 +56,7 @@ export default function CustomCursor() {
       ref={cursorRef}
       id="custom-cursor"
       data-pointer="0"
-      className="fixed top-0 left-0 z-[9999] pointer-events-none select-none"
+      className="fixed top-0 left-0 z-[10001] pointer-events-none select-none"
       style={{ willChange: "transform" }}
     >
       <svg

@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import Link from "next/link";
 import { siteConfig } from "@/lib/config";
 
@@ -44,7 +45,7 @@ export default function BentoGrid() {
       <motion.div variants={item(0)} className="md:col-span-8 relative bg-black border-[6px] border-black overflow-hidden p-[6px] shadow-[8px_8px_0px_0px_black] isolate min-h-[360px] md:min-h-0 md:h-[411px]">
         {/* Background Image */}
         <div className="absolute inset-0 z-[1]">
-          <img alt="Samsung Innovation Campus" className="w-full h-full object-cover" src="/SIC.png" loading="eager" />
+          <Image alt="Samsung Innovation Campus" className="object-cover" src="/SIC.png" fill sizes="(min-width: 768px) 66vw, 100vw" loading="eager" />
           <div className="absolute inset-0 bg-black/70" />
         </div>
 
@@ -114,8 +115,8 @@ export default function BentoGrid() {
 
       {/* Medium Block — Currently at Deriv */}
       <motion.div variants={item(0.32)} className="md:col-span-8 bg-[#f9f9f9] border-[6px] border-black overflow-hidden shadow-[8px_8px_0px_0px_black] flex flex-col md:flex-row md:h-[275px]">
-        <div className="bg-black h-[160px] md:hidden shrink-0 border-b-[6px] border-black">
-          <img alt="Deriv" className="w-full h-full object-cover" src="/Deriv.png" loading="lazy" />
+        <div className="relative bg-black h-[160px] md:hidden shrink-0 border-b-[6px] border-black">
+          <Image alt="Deriv" className="object-cover" src="/Deriv.png" fill sizes="100vw" />
         </div>
         <div className="flex-1 p-6 md:p-8 flex flex-col justify-between">
           <div className="flex items-center gap-3">
@@ -135,8 +136,8 @@ export default function BentoGrid() {
             </p>
           </div>
         </div>
-        <div className="hidden md:block bg-black w-[266px] shrink-0 border-l-[6px] border-black">
-          <img alt="Deriv" className="w-full h-full object-cover" src="/Deriv.png" loading="lazy" />
+        <div className="relative hidden md:block bg-black w-[266px] shrink-0 border-l-[6px] border-black">
+          <Image alt="Deriv" className="object-cover" src="/Deriv.png" fill sizes="266px" />
         </div>
       </motion.div>
 

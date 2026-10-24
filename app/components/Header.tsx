@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useChatModal } from "./ChatProvider";
+import GlitchText from "./wd2/GlitchText";
 
 const navLinks = [
   { href: "/missions", label: "Missions" },
@@ -14,22 +15,19 @@ export default function Header() {
   const pathname = usePathname();
   const { toggle } = useChatModal();
   const isHome = pathname === "/";
-  const [visible, setVisible] = useState(!isHome);
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolledPastHero, setScrolledPastHero] = useState(false);
+  const visible = !isHome || scrolledPastHero;
+  // Remembers which page the menu was opened on, so it closes on navigation.
+  const [menuPath, setMenuPath] = useState<string | null>(null);
+  const menuOpen = menuPath === pathname;
 
   useEffect(() => {
-    if (!isHome) { setVisible(true); return; }
-    const onScroll = () => {
-      setVisible(window.scrollY > window.innerHeight * 0.65);
-    };
+    if (!isHome) return;
+    const onScroll = () => setScrolledPastHero(window.scrollY > window.innerHeight * 0.65);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, [isHome]);
-
-  useEffect(() => {
-    setMenuOpen(false);
-  }, [pathname]);
 
   return (
     <header
@@ -42,7 +40,7 @@ export default function Header() {
           href="/"
           className="font-[family-name:var(--font-display)] font-bold text-xl md:text-2xl text-black tracking-[-1.2px] uppercase"
         >
-          TANAY MATTA
+          <GlitchText mode="hover">TANAY MATTA</GlitchText>
         </Link>
 
         {/* Desktop nav */}
@@ -81,7 +79,7 @@ export default function Header() {
             Chat
           </button>
           <button
-            onClick={() => setMenuOpen((o) => !o)}
+            onClick={() => setMenuPath((p) => (p === pathname ? null : pathname))}
             className="border-[3px] border-black p-2 flex flex-col gap-1.5 justify-center items-center w-10 h-10"
             aria-label="Toggle menu"
           >

@@ -7,6 +7,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { siteConfig } from "@/lib/config";
 import { useChatModal } from "../components/ChatProvider";
+import GlitchText from "../components/wd2/GlitchText";
 
 const ArrowIcon = () => (
   <svg className="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -62,11 +63,11 @@ type Filter = typeof FILTERS[number];
 const lug = siteConfig.leadership[2];
 const { projects, hackathonProjects } = siteConfig;
 
-const COMPANY_IMAGES: Record<string, string> = {
-  deriv: "/Deriv.png",
-  esri:  "/Esri.png",
-  ymt:   "/YMT.png",
-  kptac: "/KPTAC.png",
+const COMPANY_IMAGES: Record<string, { src: string; w: number; h: number }> = {
+  deriv: { src: "/Deriv.png", w: 3840, h: 2160 },
+  esri:  { src: "/Esri.png",  w: 2129, h: 1200 },
+  ymt:   { src: "/YMT.png",   w: 900,  h: 900 },
+  kptac: { src: "/KPTAC.png", w: 225,  h: 225 },
 };
 
 export default function MissionsPage() {
@@ -75,9 +76,8 @@ export default function MissionsPage() {
   const [selectedHackathon, setSelectedHackathon] = useState<typeof siteConfig.hackathonProjects[number] | null>(null);
 
   useEffect(() => {
-    setTimeout(() => {
-      window.dispatchEvent(new Event("filterChanged"));
-    }, 50);
+    const id = setTimeout(() => window.dispatchEvent(new Event("filterChanged")), 50);
+    return () => clearTimeout(id);
   }, [activeFilter]);
 
   return (
@@ -95,7 +95,7 @@ export default function MissionsPage() {
               </span>
             </div>
             <h1 className="font-[family-name:var(--font-display)] font-bold text-black text-[56px] sm:text-[80px] md:text-[104px] lg:text-[128px] tracking-[-2px] sm:tracking-[-3px] md:tracking-[-5px] lg:tracking-[-6.4px] uppercase leading-[1]">
-              Active_<br />Missions
+              <GlitchText>Active_<br />Missions</GlitchText>
             </h1>
           </div>
           <div className="md:col-span-4 flex flex-col justify-end pl-0 md:pl-1 mt-4 md:mt-0">
@@ -131,7 +131,7 @@ export default function MissionsPage() {
         {activeFilter === "Full_Portfolio" && (
           <div className="flex flex-col gap-6 md:grid md:grid-cols-3 md:gap-10">
 
-            {projects.slice(0, 3).map((p, i) => {
+            {projects.slice(0, 3).map((p) => {
               const { objectPosition, filter } = getImageStyle(p.id);
               return (
               <Link key={p.id} href={`/missions/${p.id}`} className="block group">
@@ -196,7 +196,7 @@ export default function MissionsPage() {
               </div>
               <div className="bg-[#171717] border-[4px] border-[#034694] w-full md:w-[233px] md:h-full md:min-h-[280px] relative overflow-hidden flex flex-col">
                 <div className="bg-white">
-                  <img alt="Deriv" className="w-full object-cover" src="/Deriv.png" loading="lazy" />
+                  <Image alt="Deriv" className="w-full h-auto object-cover" src="/Deriv.png" width={3840} height={2160} sizes="(min-width: 768px) 233px, 100vw" />
                 </div>
                 <div className="p-5 flex flex-col gap-3">
                   {[
@@ -408,7 +408,7 @@ export default function MissionsPage() {
               </div>
               <div className="bg-[#171717] border-[4px] border-[#034694] w-full md:w-[233px] md:h-full md:min-h-[280px] relative overflow-hidden flex flex-col">
                 <div className="bg-white">
-                  <img alt="Deriv" className="w-full object-cover" src="/Deriv.png" loading="lazy" />
+                  <Image alt="Deriv" className="w-full h-auto object-cover" src="/Deriv.png" width={3840} height={2160} sizes="(min-width: 768px) 233px, 100vw" />
                 </div>
                 <div className="p-5 flex flex-col gap-3">
                   {[
@@ -513,7 +513,7 @@ function ExperiencePopup({
         <div className="p-6 md:p-8 flex flex-col gap-6">
           {COMPANY_IMAGES[exp.id] && (
             <div className="bg-black border-[3px] border-black overflow-hidden w-1/2 mx-auto">
-              <img alt={exp.org} className="w-full object-cover" src={COMPANY_IMAGES[exp.id]} loading="lazy" />
+              <Image alt={exp.org} className="w-full h-auto object-cover" src={COMPANY_IMAGES[exp.id].src} width={COMPANY_IMAGES[exp.id].w} height={COMPANY_IMAGES[exp.id].h} sizes="(min-width: 768px) 320px, 50vw" />
             </div>
           )}
           <div>

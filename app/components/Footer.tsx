@@ -1,17 +1,15 @@
 import Link from "next/link";
 import { siteConfig } from "@/lib/config";
 import { PixelatedCanvas } from "@/components/ui/pixelated-canvas";
+import LazyMount from "./LazyMount";
 
-const HERO_IMG =
-  "/hero.png";
-
-const year = new Date().getFullYear();
+const HERO_IMG = "/hero-pixel.webp";
 
 export default function Footer() {
   const { contact } = siteConfig;
   return (
     <footer className="bg-black border-t-[6px] border-black pt-[6px] relative overflow-hidden">
-      <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-20">
+      <LazyMount className="absolute inset-0 overflow-hidden pointer-events-none opacity-20">
         <PixelatedCanvas
           src={HERO_IMG}
           width={1920}
@@ -25,7 +23,7 @@ export default function Footer() {
           sampleAverage
           fill
         />
-      </div>
+      </LazyMount>
       <div className="max-w-[1440px] mx-auto px-4 md:px-8 py-8 md:py-10 flex flex-col md:flex-row md:items-center md:justify-between gap-4 md:gap-0 relative z-10">
         <span className="font-[family-name:var(--font-code)] text-white text-xs tracking-[1.2px] uppercase">
           THANKS_FOR_COMING!

@@ -19,7 +19,6 @@ export default function VideoPlayer({ videoUrl, projectTitle, projectTag }: Vide
   const [playing, setPlaying] = useState(false);
 
   const youtubeId = videoUrl ? getYoutubeId(videoUrl) : null;
-  const isDirectVideo = videoUrl && !youtubeId;
 
   const statusLabel =
     projectTag === "progress" ? "IN_PROGRESS" : projectTag === "full" ? "DEPLOYED" : "ARCHIVED";
@@ -88,6 +87,7 @@ export default function VideoPlayer({ videoUrl, projectTitle, projectTag }: Vide
           ) : (
             <>
               {/* Poster */}
+              {/* eslint-disable-next-line @next/next/no-img-element -- remote YouTube thumbnail; img.youtube.com is not in images.remotePatterns */}
               <img
                 src={poster}
                 alt={projectTitle}

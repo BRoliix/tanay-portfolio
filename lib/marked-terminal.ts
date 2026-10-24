@@ -1,24 +1,20 @@
-import { marked } from "marked";
+import { marked, type Tokens } from "marked";
 
 // marked v17 passes token objects to renderer methods (not strings).
 // list(token)     — token.items is the array of listitem tokens
 // listitem(token) — token.tokens are the inline tokens; use this.parser.parse()
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 marked.use({
   renderer: {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    list(token: any) {
+    list(token: Tokens.List) {
       const body: string = token.items
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        .map((item: any) => (this as any).listitem(item))
+        .map((item) => this.listitem(item))
         .join("");
       return `<div class="terminal-list">${body}</div>`;
     },
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    listitem(token: any) {
-      const body: string = (this as any).parser.parse(token.tokens);
+    listitem(token: Tokens.ListItem) {
+      const body: string = this.parser.parse(token.tokens);
 
       // If the rendered body contains a link, wrap the whole item as a nav button
       const hrefMatch = body.match(/href="([^"]*)"/);

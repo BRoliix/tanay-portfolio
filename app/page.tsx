@@ -8,15 +8,15 @@ import HeroContent from "./components/HeroContent";
 import { BackgroundRippleEffect } from "@/components/ui/background-ripple-effect";
 import { PixelatedCanvas } from "@/components/ui/pixelated-canvas";
 import BentoGrid from "./components/BentoGrid";
-import { siteConfig } from "@/lib/config";
+import Link from "next/link";
+import LazyMount from "./components/LazyMount";
+import GlitchText from "./components/wd2/GlitchText";
 
 const ArrowIcon = () => (
   <svg className="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
     <path d="M5 12h14M12 5l7 7-7 7" />
   </svg>
 );
-
-
 
 export default function Home() {
   return (
@@ -27,12 +27,12 @@ export default function Home() {
       <section className="bg-black border-b-[6px] border-black pt-[48px] pb-[86px] px-4 md:px-6 relative overflow-hidden sticky top-0 z-10 min-h-screen">
         <div className="max-w-[1440px] mx-auto mb-4 md:mb-6 relative z-10">
           <h2 className="font-[family-name:var(--font-display)] font-bold text-white text-[96px] sm:text-[80px] md:text-[120px] lg:text-[160px] tracking-[-4px] sm:tracking-[-4px] md:tracking-[-6px] lg:tracking-[-8px] uppercase leading-[1]">
-            Hey, I&apos;m <span className="text-[#034694]">Tanay</span>
+            <GlitchText>Hey, I&apos;m <span className="text-[#034694]">Tanay</span></GlitchText>
           </h2>
         </div>
         <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-20">
           <PixelatedCanvas
-            src="/hero.png"
+            src="/hero-pixel.webp"
             width={960}
             height={540}
             cellSize={4}
@@ -59,7 +59,7 @@ export default function Home() {
               AI_<TypewriterText words={["STUDENT", "ENGINEER"]} />
             </h1>
             <p className="font-sans font-light text-[#d4d4d4] text-base md:text-xl lg:text-2xl leading-7 md:leading-8 max-w-[512px] pt-2 md:pt-4">
-              Hello! I'm Tanay, an aspiring AI Engineer with a passion for building agentic systems! <br/> Glad to have you here. Dive in to explore my work, or just ask <TerminalTrigger />
+              Hello! I&apos;m Tanay, an aspiring AI Engineer with a passion for building agentic systems! <br/> Glad to have you here. Dive in to explore my work, or just ask <TerminalTrigger />
             </p>
           </div>
 
@@ -69,7 +69,9 @@ export default function Home() {
 
       {/* ── Featured Projects / Bento Grid ── */}
       <SlideUpSection className="bg-[#f9f9f9] px-4 md:px-6 py-16 md:py-24 relative z-20">
-        <BackgroundRippleEffect />
+        <LazyMount className="absolute inset-0">
+          <BackgroundRippleEffect />
+        </LazyMount>
         <div className="relative z-10 max-w-[1440px] mx-auto flex flex-col gap-10 md:gap-16">
 
           {/* Section header */}
@@ -83,12 +85,12 @@ export default function Home() {
                 Each mission represents real engineering in production.
               </p>
             </div>
-            <a href="/missions" className="flex gap-4 items-center border-b-[4px] border-black pb-3 px-4 w-fit">
+            <Link href="/missions" className="flex gap-4 items-center border-b-[4px] border-black pb-3 px-4 w-fit">
               <span className="h-4 w-5 text-black"><ArrowIcon /></span>
               <span className="font-mono font-bold text-[#1a1c1c] text-sm tracking-[1.4px] uppercase">
                 View All Projects
               </span>
-            </a>
+            </Link>
           </div>
 
           <BentoGrid />
