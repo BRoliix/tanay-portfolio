@@ -1,0 +1,99 @@
+/* Watch Dogs 2 style boot screen + glitch text, in the site palette:
+   flat colour, hard cuts, stepped timing. */
+
+html.wd-booting { overflow: hidden; }
+
+#wd-boot { cursor: progress; }
+#wd-boot[data-phase="exit"] { background: transparent !important; pointer-events: none; }
+#wd-boot > canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+
+.wd-ui { position: absolute; z-index: 2; animation: wd-blink 260ms steps(1, end) both; animation-delay: 560ms; }
+.wd-win--dialog.wd-ui { animation-delay: 680ms; }
+#wd-boot[data-phase="exit"] .wd-ui { animation: wd-glitch-out 260ms steps(1, end) forwards; }
+
+.wd-win { border: 2px solid #000; background: #c3c3c3; box-shadow: 8px 8px 0 #000; }
+.wd-win__bar {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  background: #034694; color: #fff; border-bottom: 2px solid #000; padding: 4px 6px 4px 10px;
+  font-family: var(--font-code), monospace; font-weight: 700; font-size: 11px; letter-spacing: 1.6px; text-transform: uppercase;
+}
+.wd-win__btns { display: flex; gap: 4px; }
+.wd-win__btns i { display: block; width: 14px; height: 14px; background: #c3c3c3; border: 2px solid; border-color: #fff #404040 #404040 #fff; }
+.wd-win__body { border: 2px solid; border-color: #fff #808080 #808080 #fff; }
+.wd-win__body--grey { background: #c3c3c3; padding: 14px; }
+
+/* Windows sit over the halftone/tile strips, never over the crest */
+.wd-win--decrypt { left: 5vw; top: 13vh; width: 90vw; }
+.wd-win--dialog  { left: 5vw; bottom: 5vh; width: 90vw; }
+@media (min-width: 768px) {
+  .wd-win--decrypt { left: 11vw; top: 14vh; width: min(480px, 36vw); }
+  .wd-win--dialog  { left: 5vw; bottom: 8vh; width: min(410px, 34vw); }
+}
+
+.wd-mark {
+  width: 100%; aspect-ratio: 380 / 125;
+  background: url(/wd2/mark-strip.webp) 0 0 / 4200% 100% no-repeat;
+  mix-blend-mode: screen; visibility: hidden;
+}
+.wd-mark.is-ready { visibility: visible; animation: wd-mark 2.33s steps(42, jump-none) infinite; }
+@keyframes wd-mark { to { background-position: 100% 0; } }
+
+.wd-info {
+  flex-shrink: 0; width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center;
+  border: 2px solid #034694; background: #fff; color: #034694;
+  font-family: var(--font-display), sans-serif; font-weight: 700; font-size: 16px;
+}
+.wd-sunken { border: 2px solid; border-color: #808080 #fff #fff #808080; background: #fff; }
+.wd-btn {
+  min-width: 76px; text-align: center; padding: 4px 12px; background: #c3c3c3; color: #000;
+  font-family: var(--font-display), sans-serif; font-weight: 700; font-size: 12px;
+  border: 2px solid; border-color: #fff #404040 #404040 #fff; outline: 1px solid #000;
+}
+.wd-btn.is-pressed { border-color: #404040 #fff #fff #404040; transform: translate(1px, 1px); }
+.wd-caret { animation: wd-blink 900ms steps(1, end) infinite; }
+
+@keyframes wd-glitch-out {
+  0%   { clip-path: inset(0 0 0 0);     transform: translateX(0); }
+  18%  { clip-path: inset(8% 0 62% 0);  transform: translateX(-22px); }
+  36%  { clip-path: inset(46% 0 30% 0); transform: translateX(30px); }
+  54%  { clip-path: inset(72% 0 6% 0);  transform: translateX(-10px); }
+  72%  { clip-path: inset(28% 0 66% 0); transform: translateX(44px); }
+  90%  { clip-path: inset(50% 0 49% 0); transform: translateX(-60px); }
+  100% { clip-path: inset(50% 0 50% 0); visibility: hidden; }
+}
+
+.wd-glitch__layer--a, .wd-glitch__layer--a * { color: var(--wd-ga) !important; }
+.wd-glitch__layer--b, .wd-glitch__layer--b * { color: var(--wd-gb) !important; }
+.wd-glitch[data-on="1"] .wd-glitch__layer--a { animation: wd-slice-a 440ms steps(1, end) both; }
+.wd-glitch[data-on="1"] .wd-glitch__layer--b { animation: wd-slice-b 440ms steps(1, end) both; }
+.wd-glitch[data-on="1"] .wd-glitch__base     { animation: wd-jitter 440ms steps(1, end) both; }
+
+@keyframes wd-slice-a {
+  0%   { clip-path: inset(12% 0 70% 0); transform: translate(-0.06em, 0); }
+  20%  { clip-path: inset(58% 0 24% 0); transform: translate(0.08em, 0); }
+  40%  { clip-path: inset(30% 0 52% 0); transform: translate(-0.12em, 0); }
+  60%  { clip-path: inset(80% 0 4% 0);  transform: translate(0.04em, 0); }
+  80%  { clip-path: inset(4% 0 88% 0);  transform: translate(-0.03em, 0); }
+  100% { clip-path: inset(100% 0 0 0);  transform: none; }
+}
+@keyframes wd-slice-b {
+  0%   { clip-path: inset(64% 0 18% 0); transform: translate(0.07em, 0); }
+  20%  { clip-path: inset(6% 0 80% 0);  transform: translate(-0.1em, 0); }
+  40%  { clip-path: inset(44% 0 40% 0); transform: translate(0.05em, 0); }
+  60%  { clip-path: inset(20% 0 66% 0); transform: translate(-0.04em, 0); }
+  80%  { clip-path: inset(70% 0 12% 0); transform: translate(0.09em, 0); }
+  100% { clip-path: inset(100% 0 0 0);  transform: none; }
+}
+@keyframes wd-jitter {
+  0%, 100% { transform: none; }
+  20% { transform: translate(0.02em, 0); }
+  40% { transform: translate(-0.03em, 0); }
+  60% { transform: translate(0.01em, 0); }
+}
+@keyframes wd-blink { 0% { opacity: 0; } 50% { opacity: 1; } 75% { opacity: 0.2; } 100% { opacity: 1; } }
+.wd-blink-in { animation: wd-blink 220ms steps(1, end); }
+
+@media (prefers-reduced-motion: reduce) {
+  .wd-ui, .wd-mark.is-ready, .wd-caret, .wd-blink-in { animation: none !important; }
+  #wd-boot[data-phase="exit"] { visibility: hidden; }
+}

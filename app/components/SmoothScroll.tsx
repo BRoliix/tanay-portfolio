@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Lenis from "lenis";
+import { BOOT_EVENT } from "./wd2/BootLoader";
 
 export default function SmoothScroll() {
   const pathname = usePathname();
@@ -17,6 +18,12 @@ export default function SmoothScroll() {
       autoRaf: false,
     });
 
+    const onBooted = () => lenis.start();
+    if (document.documentElement.classList.contains("wd-booting")) {
+      lenis.stop();
+      window.addEventListener(BOOT_EVENT, onBooted, { once: true });
+    }
+
     let rafId: number;
     function raf(time: number) {
       lenis.raf(time);
@@ -25,23 +32,25 @@ export default function SmoothScroll() {
     rafId = requestAnimationFrame(raf);
 
     const handleResize = () => lenis.resize();
+    const timers: ReturnType<typeof setTimeout>[] = [];
     const handleFilterChange = () => {
-      setTimeout(() => lenis.resize(), 100);
+      timers.push(setTimeout(() => lenis.resize(), 100));
     };
 
     window.addEventListener("resize", handleResize);
     window.addEventListener("filterChanged", handleFilterChange);
 
-    const timers = [
+    timers.push(
       setTimeout(() => lenis.resize(), 300),
       setTimeout(() => lenis.resize(), 800),
-    ];
+    );
 
     return () => {
       lenis.destroy();
       cancelAnimationFrame(rafId);
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("filterChanged", handleFilterChange);
+      window.removeEventListener(BOOT_EVENT, onBooted);
       timers.forEach(clearTimeout);
     };
   }, [pathname]);

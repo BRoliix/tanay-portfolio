@@ -1,6 +1,8 @@
+import Image from "next/image";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { siteConfig } from "@/lib/config";
+import mePortrait from "../../public/me.png";
 
 const SkillCheckIcon = () => (
   <svg className="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -8,7 +10,7 @@ const SkillCheckIcon = () => (
   </svg>
 );
 
-const { experience, education, skillTiles, contact, achievements, certifications, leadership } = siteConfig;
+const { experience, education, skillTiles, contact, achievements, certifications } = siteConfig;
 
 export default function DossierPage() {
   return (
@@ -21,7 +23,7 @@ export default function DossierPage() {
         <div className="flex flex-col gap-4">
           <div className="bg-[#034694] px-3 py-1 w-fit">
             <span className="font-[family-name:var(--font-code)] text-white text-xs tracking-[1.4px] uppercase">
-              Subject_ID: {siteConfig.subjectId} // STATUS: FINAL_YEAR
+              Subject_ID: {siteConfig.subjectId} {"//"} STATUS: FINAL_YEAR
             </span>
           </div>
           <h1 className="font-[family-name:var(--font-display)] font-bold text-[#1a1c1c] text-[36px] sm:text-[64px] md:text-[96px] lg:text-[128px] tracking-[-1px] sm:tracking-[-2px] md:tracking-[-4px] lg:tracking-[-6.4px] uppercase leading-[1] break-words">
@@ -57,11 +59,11 @@ export default function DossierPage() {
             </div>
             <div className="md:col-span-8 flex justify-center">
               <div className="bg-[#e2e2e2] border-[6px] border-black shadow-[8px_8px_0px_0px_black] overflow-hidden w-full sm:w-[70%] md:w-[55%]">
-                <img
+                <Image
                   alt="Subject Portrait"
                   className="w-full h-auto"
-                  src="/me.png"
-                  loading="lazy"
+                  src={mePortrait}
+                  sizes="(min-width: 768px) 55vw, (min-width: 640px) 70vw, 100vw"
                 />
               </div>
             </div>
@@ -121,7 +123,7 @@ export default function DossierPage() {
                   </span>
                 </div>
                 <p className="font-[family-name:var(--font-code)] text-[#737373] text-sm tracking-[-0.7px] uppercase leading-5 break-words">
-                  {education.institution} // {education.location}
+                  {education.institution} {"//"} {education.location}
                 </p>
                 <p className="font-sans text-[#434751] text-base leading-6">
                   CGPA: {education.cgpa}. Specializing in AI engineering, neural architectures, and applied machine learning systems.
@@ -139,7 +141,7 @@ export default function DossierPage() {
                     </span>
                   </div>
                   <p className="font-[family-name:var(--font-code)] text-[#737373] text-sm tracking-[-0.7px] uppercase leading-5 break-words">
-                    {exp.org} // {exp.location}
+                    {exp.org} {"//"} {exp.location}
                   </p>
                   <ul className="flex flex-col gap-2 max-w-[672px]">
                     {exp.bullets.map((b, i) => (
@@ -233,7 +235,7 @@ export default function DossierPage() {
               &gt; [OK] {achievements[0].title.toUpperCase()} — {achievements[0].detail}
             </p>
             <p className="font-[family-name:var(--font-code)] text-white text-sm md:text-base leading-6">
-              &gt; [OK] {experience[0].org.toUpperCase()} // {experience[0].title.toUpperCase()} — ACTIVE
+              &gt; [OK] {experience[0].org.toUpperCase()} {"//"} {experience[0].title.toUpperCase()} — ACTIVE
             </p>
             <div className="flex items-center gap-2">
               <p className="font-[family-name:var(--font-code)] text-white text-sm md:text-base leading-6 break-all">

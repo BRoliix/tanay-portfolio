@@ -43,3 +43,9 @@ next-env.d.ts
 
 # MP4 files
 *.mp4
+# Blender autosave backups
+design/src.tgz
+*.blend1
+_to_delete/
+# Blender renders (regenerable; packed outputs live in public/wd2)
+design/blender/*/renders/

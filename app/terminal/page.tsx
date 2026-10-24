@@ -211,7 +211,7 @@ export default function TerminalPage() {
         ...prev.slice(0, -1),
         { role: "agent", markdown: text, timestamp: timestamp() },
       ]);
-    } catch (err) {
+    } catch {
       setMessages((prev) => [
         ...prev.slice(0, -1),
         {
